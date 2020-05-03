@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.resource.pojo.CountryBO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,13 +30,13 @@ import java.util.Set;
 public class ResourceController {
 
     @Value(value = "classpath:json/country.json")
-    private Resource countryResource;
+    private Resource resource;
 
     private final ObjectMapper objectMapper;
 
     @GetMapping("all")
     public Map<String, Set<CountryBO>> getCountryAll() throws IOException {
-        return objectMapper.readValue(countryResource.getFile(), new TypeReference<Map<String, Set<CountryBO>>>() {
+        return objectMapper.readValue(resource.getInputStream(), new TypeReference<Map<String, Set<CountryBO>>>() {
         });
     }
 
